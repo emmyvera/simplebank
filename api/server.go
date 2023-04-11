@@ -19,6 +19,9 @@ func NewServer(store *db.Store) *Server {
 
 	// add toutes to router
 	router.POST("/accounts", server.createAccount)
+	router.GET("/accounts/:ID", server.getAccount)
+	router.GET("/accounts", server.listAccount)
+	router.DELETE("/accounts/:ID", server.delAccount)
 
 	server.router = router
 	return server
