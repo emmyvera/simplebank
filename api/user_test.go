@@ -101,6 +101,26 @@ func TestCreateUser(t *testing.T) {
 				require.Equal(t, http.StatusBadRequest, recorder.Code)
 			},
 		},
+
+		{
+			name: "Invalid Username",
+			body: gin.H{
+				"username": "invalid-user#1",
+				"password": password,
+				"fullname": user.FullNmae,
+				"email":    user.Email,
+			},
+			buildStubs: func(store *mockdb.MockStore) {
+
+				store.EXPECT().
+					CreateUser(gomock.Any(), gomock.Any()).
+					Times(0)
+
+			},
+			checkResponse: func(recorder *httptest.ResponseRecorder) {
+				require.Equal(t, http.StatusBadRequest, recorder.Code)
+			},
+		},
 	}
 
 	for i := range testCases {
